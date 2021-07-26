@@ -1,25 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Login from './src/pages/Login';
 import Singin from './src/pages/Singin';
+import Loading from './src/pages/Loading';
+import Home from './src/pages/Home';
 
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
   return (
     <>
       <StatusBar style="light" />
-      <Singin/>
+      <Home/>
       
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
