@@ -22,7 +22,7 @@ export default ()=>{
             
             firebase.auth().signInWithEmailAndPassword(email,pass).then(
                 function(user){
-                    console.log(user);
+                    console.warn(user);
                 }
             );
         }catch(error){

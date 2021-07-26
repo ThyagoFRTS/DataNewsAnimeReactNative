@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Image, FlatList, Text, View } from 'react-native'
 import CardNS from '../../components/CardNS'
 import {
-    ScrollView,
-    Title,
     Container,
-    Input,
-    ButtonSubmit,
-    TextButton
 } from './styles'
+import SearchBar from '../../components/SearchBar'
 import Loading from '../Loading'
 import Logo from '../../../assets/ic_sakura_round.png'
 const nextSeason = "https://api.jikan.moe/v3/season/later"
@@ -33,6 +29,7 @@ export default () => {
 
 
         <Container>
+            <SearchBar/>
             {isLoading ? <Loading /> :
                 <FlatList
                     data={data}

@@ -18,9 +18,7 @@ export const Container = styled.View`
 `
 
 
-export const Title = styled.Text`    
-    color: red;
-`
+
 export const Input = styled.TextInput`
     width: 90%;
     padding: 15px;
