@@ -14,15 +14,20 @@ import Logo from '../../../assets/ic_sakura_round.png'
 
 
 
-export default ()=>{
+export default ({navigation})=>{
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
+
     const loginUser = () =>{
         try{
             
             firebase.auth().signInWithEmailAndPassword(email,pass).then(
+                
                 function(user){
-                    console.warn(user);
+                    
+                    const currentUser = firebase.auth().currentUser
+                    navigation.navigate('Home', {uid:currentUser.uid});
+                    
                 }
             );
         }catch(error){
@@ -32,17 +37,9 @@ export default ()=>{
     }
 
     const signUpUser = () =>{
-        try{
-            
-            if (pass.length < 6){
-                alert("Try pass with more than 5 characters");
-                return;
-            }
-            
-            firebase.auth().createUserWithEmailAndPassword(email,pass);
-        }catch(error){
-            console.log(error.toString());
-        }
+      
+        navigation.navigate('Singin');
+        
     }
     
     return (

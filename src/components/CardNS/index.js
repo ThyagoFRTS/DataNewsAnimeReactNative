@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import { Text, Image } from "react-native"
+
 import {
     Card,
     Title,
@@ -8,16 +9,16 @@ import {
 } from './styles'
 
 
-export default (props)=>{
+export default ({data})=>{
     const maxlimit = 100;
-    let syn = props.data.synopsis;
-    console.log(props.data.image_url)
+    let syn = data.synopsis;
+    
     return(
         <Card>
-            <Image source={{uri: props.data.image_url}}
+            <Image source={{uri: data.image_url}}
                     style={{width: 100, height: 100, borderRadius: 8}}/>
             <ContainerTex>
-                <Title>{props.data.title}</Title>  
+                <Title>{data.title}</Title>  
                 <TextInfo>{syn.length > maxlimit? syn.substring(0,maxlimit-3)+"...":syn}</TextInfo>
             </ContainerTex>
             

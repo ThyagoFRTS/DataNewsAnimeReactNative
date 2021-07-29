@@ -13,7 +13,7 @@ import Logo from '../../../assets/ic_sakura_round.png'
 
 
 
-export default ()=>{
+export default ({navigation})=>{
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");

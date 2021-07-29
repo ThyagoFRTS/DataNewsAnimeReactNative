@@ -9,7 +9,7 @@ import {
 } from './styles'
 
 
-export default ()=>{
+export default (props)=>{
     const [item, setItem] = useState("")
     return(
         <Container>
@@ -19,7 +19,7 @@ export default ()=>{
             </SearchSubmit>
             <Search
                 onChangeText={item => setItem(item)}
-                placeholder= "Search"
+                placeholder= {props.uId}
             />
             
         </Container>

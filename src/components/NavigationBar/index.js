@@ -1,18 +1,21 @@
 import React from 'react';
-import { Image } from 'react-native';
-import {
-    ItemBarView,
-    Text
-    } from './styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import Home from '../../pages/Home';
 import Profile from '../../pages/Profile'
+import {HomeNavigation} from '../HomeNavigation'
+
 
 const Tab = createBottomTabNavigator();
 
-export default Tabs = () =>{
+
+
+export default ProfileHomeNavigation = ({route}) =>{
+    console.log('===Profile Home Navigation=')
+    //const {uid} = route.params;
+    //console.log(uid)
     return(
         <Tab.Navigator
             tabBarOptions={{
@@ -34,8 +37,9 @@ export default Tabs = () =>{
               })
             }
         >
-            <Tab.Screen name="Home" component={Home}/>
-            <Tab.Screen name="Profile" component={Profile}/>
+
+            <Tab.Screen name="Home" component={HomeNavigation} /*initialParams={{ uid: uid }}*//>
+            <Tab.Screen name="Profile" component={Profile} /*initialParams={{ uid: uid }}*//>
         </Tab.Navigator>
     )
 
