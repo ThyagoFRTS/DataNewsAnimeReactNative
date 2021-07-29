@@ -31,7 +31,7 @@ export default function App() {
   if (initializing) return null;
   
 
-  /*
+  
   if (!user) {
     return (
       <NavigationContainer>
@@ -39,7 +39,7 @@ export default function App() {
         <AuthNavigation />
       </NavigationContainer>
     );
-  }*/
+  }
   return (
     <NavigationContainer>
       <StatusBar style="light" />

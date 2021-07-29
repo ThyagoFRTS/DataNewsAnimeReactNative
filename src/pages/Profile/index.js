@@ -1,32 +1,58 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Image } from 'react-native'
 import firebase from '../../settings/firebase';
 import {
-    ScrollView,
+    Card,
+    ContainerTex,
+    TextInfo,
+    Title,
     Container,
-    Input,
+    ContainerDescription,
+    ImageContainer
 } from './styles'
-import Logo from '../../../assets/ic_sakura_round.png'
 
 
 
-export default ()=>{
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
-    const [confPass, setConfPass] = useState("");
+
+export default () => {
+    const [user, setUser] = useState();
+    const currentUser = firebase.auth().currentUser;
+    const database = firebase.database();
+    database
+        .ref('/Users/' + currentUser.uid)
+        .once('value')
+        .then(snapshot => {
+            setUser(snapshot.val());
+        });
+        console.log(user)
     
 
-    
+
     return (
-        <ScrollView>
-            <Input
-                    onChangeText={confPass => setConfPass(confPass)}
-                    secureTextEntry={true}
-                    placeholder= "profile screen"
+        <Container>
+            <Card>
+                <ImageContainer>
+                    <Image 
+                        style={{ width: 100, height: 100, borderRadius: 8 }} />
 
-                />
-            
-        </ScrollView>
+                </ImageContainer>
+                <ContainerTex>
+                    <Title>User: {user.userName}</Title>
+                    <TextInfo>Type: {user.type}</TextInfo>
+                </ContainerTex>
+
+
+            </Card>
+
+            <ContainerDescription>
+
+                <TextInfo>Account Created On: {user.date_create_account}</TextInfo>
+                <TextInfo>Email: {user.email}</TextInfo>
+
+
+            </ContainerDescription>
+
+
+        </Container>
     )
 }
