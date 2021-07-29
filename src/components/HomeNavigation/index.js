@@ -3,9 +3,8 @@ import React from 'react';
 import Home from '../../pages/Home';
 import Login from '../../pages/Login'
 import CardInfo from '../../pages/CardInfo'
-import Singin from '../../pages/Singin';
 
-import NavigationBar from '../NavigationBar';
+
 import { createStackNavigator } from '@react-navigation/stack';
 
 

@@ -25,13 +25,13 @@ export default function App() {
 
   useEffect(() => {
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-    
+    return subscriber;
   }, []);
 
   if (initializing) return null;
   
 
-
+  /*
   if (!user) {
     return (
       <NavigationContainer>
@@ -39,11 +39,11 @@ export default function App() {
         <AuthNavigation />
       </NavigationContainer>
     );
-  }
+  }*/
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <BarNavigation />
+      <AuthNavigation />
     </NavigationContainer>
   );
 

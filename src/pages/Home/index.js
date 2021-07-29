@@ -32,11 +32,15 @@ export default ({ navigation }) => {
     //console.log(uid)
 
     useEffect(() => {
+        let isMounted = true;  
         fetch(nextSeason)
             .then((response) => response.json())
-            .then((json) => { setData(json.anime) })
+            .then((json) => { if (isMounted) setData(json.anime) })
             .catch((error) => alert(error))
             .then(setLoading(false));
+
+                         // note mutable flag
+            return () => { isMounted = false };
 
     }, [])
 
