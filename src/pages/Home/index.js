@@ -16,7 +16,7 @@ import Logo from '../../../assets/ic_sakura_round.png'
 const nextSeason = "https://api.jikan.moe/v3/season/later"
 
 
-export default ({ navigation }) => {
+export default ({navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [isRender, setIsRender] = useState(false);

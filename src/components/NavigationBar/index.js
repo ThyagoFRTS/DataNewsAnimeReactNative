@@ -14,8 +14,8 @@ const Tab = createBottomTabNavigator();
 
 export default ProfileHomeNavigation = ({route}) =>{
     console.log('===Profile Home Navigation=')
-    //const {uid} = route.params;
-    //console.log(uid)
+    // const {uid} = route.params;
+    // console.log(uid)
     return(
         <Tab.Navigator
             tabBarOptions={{

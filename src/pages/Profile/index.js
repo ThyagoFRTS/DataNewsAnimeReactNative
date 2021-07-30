@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Image } from 'react-native'
 import firebase from '../../settings/firebase';
+import Loading from '../Loading';
+import ImageProfile from '../../components/ImageProfile';
+
 import {
     Card,
     ContainerTex,
@@ -12,47 +15,40 @@ import {
 } from './styles'
 
 
-
-
-export default () => {
-    const [user, setUser] = useState();
-    const currentUser = firebase.auth().currentUser;
+export default ({ route }) => {
+    const [user, setUser] = useState({});
+    const [isLoading, setLoading] = useState(false);
+    const currentUser = firebase.auth().currentUser.uid;
     const database = firebase.database();
-    database
-        .ref('/Users/' + currentUser.uid)
-        .once('value')
-        .then(snapshot => {
-            setUser(snapshot.val());
-        });
-        console.log(user)
-    
+
+    useEffect(() => {
+        database
+            .ref('/Users/' + currentUser)
+            .once('value')
+            .then(snapshot => {
+                setUser(snapshot.val());
+            });
+    }, [])
 
 
     return (
-        <Container>
-            <Card>
-                <ImageContainer>
-                    <Image 
-                        style={{ width: 100, height: 100, borderRadius: 8 }} />
+        <>
+            {isLoading ? <Loading /> :
+                <Container>
+                    <Card >
 
-                </ImageContainer>
-                <ContainerTex>
-                    <Title>User: {user.userName}</Title>
-                    <TextInfo>Type: {user.type}</TextInfo>
-                </ContainerTex>
+                        <ImageProfile uri={user.url_img_profile}/>
+                        <ContainerTex>
+                            <Title>User: {user.userName}</Title>
+                            <TextInfo>Type: {user.type}</TextInfo>
+                        </ContainerTex>
+                    </Card>
+                    <ContainerDescription>
+                        <TextInfo>Account Created On: {user.date_create_account}</TextInfo>
+                        <TextInfo>Email: {user.email}</TextInfo>
+                    </ContainerDescription>
+                </Container>}
+        </>
 
-
-            </Card>
-
-            <ContainerDescription>
-
-                <TextInfo>Account Created On: {user.date_create_account}</TextInfo>
-                <TextInfo>Email: {user.email}</TextInfo>
-
-
-            </ContainerDescription>
-
-
-        </Container>
     )
 }

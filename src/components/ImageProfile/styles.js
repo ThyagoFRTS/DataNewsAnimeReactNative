@@ -9,9 +9,13 @@ export const Card = styled.View`
 
 `
 export const ImageContainer = styled.TouchableOpacity`
-    background-color: #615858;
+    background-color: #fff;
     border-radius: 4px;
     
+`
+export const ImageLoad = styled.View`
+    width: 120px;
+    height: 120px;
 `
 
 export const Container = styled.View`

@@ -29,7 +29,7 @@ export default function App() {
   }, []);
 
   if (initializing) return null;
-  
+  console.log(user.uid);
 
   
   if (!user) {
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <AuthNavigation />
+      <BarNavigation/>
     </NavigationContainer>
   );
 
