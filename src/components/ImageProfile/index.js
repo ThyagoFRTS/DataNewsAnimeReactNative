@@ -27,13 +27,60 @@ export default ({ uri }) => {
     const cloudStorage = firebase.storage();
     const [image, setImage] = useState(null);
     const [isUpLoading, setUpLoading] = useState(false);
-    const [isSended, setIsSend] = useState(0);
+    const [profileUrl, setProfileUrl] = useState("");
     const [wasSeted, setWasSeted] = useState(false);
+    
+    console.log("========PROFILE PIC==========")
+    //console.log("uri: getted "+ref)
+    
 
-    const ref = cloudStorage.ref(uri);
-    console.log(uri);
-    if (ref!=null){
-        ref.getDownloadURL()
+    // useEffect(()=>{
+    //     setProfileUrl(firebase.auth().currentUser.uid+".jpeg");
+    //     async function fetchImage(){
+    //         //const currentUser = firebase.auth().currentUser.uid+".jpeg";
+    //         const ref = cloudStorage.ref(uri);
+    //         console.log("this is uri")
+    //         console.log(ref);
+
+
+
+    //         // await ref.getDownloadURL().then(function(url) {
+    //         //     // `url` is the download URL for 'images/stars.jpg'
+              
+    //         //     // This can be downloaded directly:
+    //         //     var xhr = new XMLHttpRequest();
+    //         //     xhr.responseType = 'blob';
+    //         //     xhr.onload = function(event) {
+    //         //       var blob = xhr.response;
+    //         //     };
+    //         //     xhr.open('GET', url);
+    //         //     xhr.send();
+                
+    //         //     // Or inserted into an <img> element:
+    //         //     if (!wasSeted) {
+    //         //         setImage(url)
+    
+    //         //         setWasSeted(true);
+    //         //     }
+    //         //   }).catch(function(error) {
+    //         //     // Handle any errors
+    //         //   });
+
+    //         // const response = await ref.getDownloadURL().then(url => {
+    //         //     console.log("Dentro do then")
+    //         //     console.log(url)
+    //         //     if (!wasSeted) {
+    //         //         setImage(url)
+    
+    //         //     }
+    //         //     setWasSeted(true);
+    //         // })
+    //         // .catch(e => { console.log(e); });
+    //     }
+    //     fetchImage();
+    // },[wasSeted])
+    if (!wasSeted){
+        cloudStorage.ref(uri).getDownloadURL()
             .then(url => {
                 console.log(url)
                 if (!wasSeted) {
@@ -49,27 +96,7 @@ export default ({ uri }) => {
 
 
         
-    // const submitImage = async () => {
-    //     const uploadUri = image;
-    //     let fileName = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-
-    //     setUpLoading(true);
-    //     try {
-    //         await cloudStorage.ref(uri).putFile(pathToFile);
-    //         setUpLoading(false);
-    //         Alert.alert(
-    //             'Image Sended Sucessfull',
-    //             'Your image has saved'
-    //         )
-
-    //     } catch (e) {
-    //         console.log("-------------------Send Firebase Prblems---------------------")
-    //         console.log(e);
-    //     }
-
-    // }
-
-
+ 
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -78,10 +105,6 @@ export default ({ uri }) => {
                     alert('Sorry, we need camera roll permissions to make this work!');
                 }
             }
-
-
-
-
         })();
     }, []);
 
@@ -125,19 +148,13 @@ export default ({ uri }) => {
             } catch (e) {
                 console.log(e);
             }
-            // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/`+uri;
-            // // uploads file
-            // await reference.putFile(pathToFile);
+            
         }
     };
 
-
+    
 
     return (
-
-
-
-
         <ImageContainer onPress={pickImage}>
             {!wasSeted ?
                 <ImageLoad>

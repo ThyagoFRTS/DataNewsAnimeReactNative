@@ -10,7 +10,6 @@ import {
 
 import SearchBar from '../../components/SearchBar'
 import Loading from '../Loading'
-import Logo from '../../../assets/ic_sakura_round.png'
 
 
 const nextSeason = "https://api.jikan.moe/v3/season/later"
@@ -65,8 +64,6 @@ export default ({navigation }) => {
     }
 
     return (
-
-
         <Container>
             <SearchBar uId={a} />
             {isLoading ? <Loading /> :
@@ -78,9 +75,6 @@ export default ({navigation }) => {
                     extraData={isRender}
                 />
             }
-
-
-
         </Container>
     )
 }

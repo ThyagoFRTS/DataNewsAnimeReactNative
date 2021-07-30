@@ -8,10 +8,29 @@ export const Card = styled.View`
     padding: 12px;
 
 `
+
+
 export const ImageContainer = styled.TouchableOpacity`
-    background-color: #615858;
+    background-color: #fff;
     border-radius: 4px;
     
+`
+export const ImageLoad = styled.View`
+    width: 120px;
+    height: 120px;
+`
+export const ButtonLogout = styled.TouchableOpacity`
+    padding: 10px;
+    background-color: #FF6347;
+    height: 46px;
+    width: 147px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 34px;
+    margin-bottom: 20px;
+`
+export const TextButton = styled.Text`
+    color: #fff;
 `
 
 export const Container = styled.View`

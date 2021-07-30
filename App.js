@@ -11,6 +11,7 @@ import BarNavigation  from './src/components/NavigationBar'
 import { AuthNavigation } from './src/components/NavigationStack'
 
 export default function App() {
+  console.log("================APP JS======================")
   const [loading, setLoading] = useState(true)
 
   // Set an initializing state whilst Firebase connects
@@ -27,9 +28,9 @@ export default function App() {
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
-
+  
   if (initializing) return null;
-  console.log(user.uid);
+  if (user)  console.log("User Logged: "+user.uid);
 
   
   if (!user) {
@@ -43,7 +44,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <BarNavigation/>
+      <BarNavigation userid={user.uid}/>
     </NavigationContainer>
   );
 

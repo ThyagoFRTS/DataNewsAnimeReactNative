@@ -18,7 +18,7 @@ export default ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
     const [isLoading, setLoading] = useState(false);
-
+    console.log("===========LOGIN================")
     const loginUser = () => {
         setLoading(true)
         try {
@@ -28,6 +28,7 @@ export default ({ navigation }) => {
                 function (user) {
 
                     const currentUser = firebase.auth().currentUser
+                    console.log(currentUser.uid)
                     navigation.navigate('Home', { uid: currentUser.uid });
 
                 }

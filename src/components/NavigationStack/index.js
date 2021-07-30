@@ -14,7 +14,11 @@ const AuthStack = createStackNavigator();
 
 
 
-export const AuthNavigation = () =>{
+export const AuthNavigation = ({userid}) =>{
+  if(userid){
+    console.log("User Ig getted in AuthStack: "+userid)
+
+  }
   return (
     <AuthStack.Navigator
         screenOptions={{

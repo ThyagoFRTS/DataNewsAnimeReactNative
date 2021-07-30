@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'react-native'
+import { Alert, Image } from 'react-native'
 import firebase from '../../settings/firebase';
 import Loading from '../Loading';
 import ImageProfile from '../../components/ImageProfile';
@@ -11,26 +11,46 @@ import {
     Title,
     Container,
     ContainerDescription,
-    ImageContainer
+    ImageContainer,
+    ButtonLogout,
+    TextButton
 } from './styles'
 
 
 export default ({ route }) => {
     const [user, setUser] = useState({});
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const currentUser = firebase.auth().currentUser.uid;
     const database = firebase.database();
-
+    console.log('============PROFILE=================')
     useEffect(() => {
-        database
-            .ref('/Users/' + currentUser)
-            .once('value')
-            .then(snapshot => {
-                setUser(snapshot.val());
-            });
+        setLoading(true)
+        async function fetchData() {
+            // You can await here
+            const response = await database.ref().child('/Users/' + currentUser);
+            if (response){
+                response.once('value')
+                .then(snapshot => {
+                    setUser(snapshot.val());
+                });
+                setLoading(false) 
+            // ...
+          }
+        }
+        fetchData();
+            
     }, [])
-
-
+    
+    console.log("aa")
+    const logout = () =>{
+        firebase.auth()
+        .signOut()
+        .then(() => {
+            Alert.alert(
+            'Logout',
+            'You will sendded to Login page'
+        )});
+    }
     return (
         <>
             {isLoading ? <Loading /> :
@@ -47,6 +67,9 @@ export default ({ route }) => {
                         <TextInfo>Account Created On: {user.date_create_account}</TextInfo>
                         <TextInfo>Email: {user.email}</TextInfo>
                     </ContainerDescription>
+                    <ButtonLogout onPress={logout}>
+                        <TextButton>Logout</TextButton>
+                    </ButtonLogout>
                 </Container>}
         </>
 
