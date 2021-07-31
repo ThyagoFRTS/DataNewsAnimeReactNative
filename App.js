@@ -44,7 +44,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <BarNavigation userid={user.uid}/>
+      <BarNavigation />
     </NavigationContainer>
   );
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'react-native'
+import { Alert, Image } from 'react-native'
 import firebase from '../../settings/firebase';
 import Loading from '../Loading';
 import {
@@ -34,6 +34,10 @@ export default ({ navigation }) => {
                 }
             );
         } catch (error) {
+            Alert.alert(
+                'Somenthing Was Wrong',
+                'Try Again'
+            );
             console.log(error.toString());
         }
         setLoading(false)

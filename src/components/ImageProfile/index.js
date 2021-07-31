@@ -7,7 +7,7 @@ import {
 import firebase, {storageRef} from '../../settings/firebase';
 import * as ImagePicker from 'expo-image-picker';
 import { utils } from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage';
+import { AntDesign } from '@expo/vector-icons';
 import Loading from '../../pages/Loading';
 //import ImagePicker from 'react-native-image-picker';
 import {
@@ -19,67 +19,35 @@ import {
     ContainerDescription,
     ImageContainer
 } from './styles'
+import { set } from 'react-native-reanimated';
 
 
 
 
 export default ({ uri }) => {
     const cloudStorage = firebase.storage();
+    
     const [image, setImage] = useState(null);
     const [isUpLoading, setUpLoading] = useState(false);
-    const [profileUrl, setProfileUrl] = useState("");
+    const [isVoid, setVoid] = useState(false);
     const [wasSeted, setWasSeted] = useState(false);
+    const [uriImage, setUriImage] = useState("");
     
     console.log("========PROFILE PIC==========")
-    //console.log("uri: getted "+ref)
     
-
-    // useEffect(()=>{
-    //     setProfileUrl(firebase.auth().currentUser.uid+".jpeg");
-    //     async function fetchImage(){
-    //         //const currentUser = firebase.auth().currentUser.uid+".jpeg";
-    //         const ref = cloudStorage.ref(uri);
-    //         console.log("this is uri")
-    //         console.log(ref);
-
-
-
-    //         // await ref.getDownloadURL().then(function(url) {
-    //         //     // `url` is the download URL for 'images/stars.jpg'
-              
-    //         //     // This can be downloaded directly:
-    //         //     var xhr = new XMLHttpRequest();
-    //         //     xhr.responseType = 'blob';
-    //         //     xhr.onload = function(event) {
-    //         //       var blob = xhr.response;
-    //         //     };
-    //         //     xhr.open('GET', url);
-    //         //     xhr.send();
-                
-    //         //     // Or inserted into an <img> element:
-    //         //     if (!wasSeted) {
-    //         //         setImage(url)
-    
-    //         //         setWasSeted(true);
-    //         //     }
-    //         //   }).catch(function(error) {
-    //         //     // Handle any errors
-    //         //   });
-
-    //         // const response = await ref.getDownloadURL().then(url => {
-    //         //     console.log("Dentro do then")
-    //         //     console.log(url)
-    //         //     if (!wasSeted) {
-    //         //         setImage(url)
-    
-    //         //     }
-    //         //     setWasSeted(true);
-    //         // })
-    //         // .catch(e => { console.log(e); });
-    //     }
-    //     fetchImage();
-    // },[wasSeted])
+    useEffect(()=>{
+        if(uri == ""){
+            setVoid(true)
+        }else{
+            setVoid(false)
+        }
+        console.log("=========USE EFEQUIT");
+        console.log(uri)
+        console.log(isVoid)
+        console.log()
+    },[uri,image])
     if (!wasSeted){
+        
         cloudStorage.ref(uri).getDownloadURL()
             .then(url => {
                 console.log(url)
@@ -90,6 +58,7 @@ export default ({ uri }) => {
                 setWasSeted(true);
             })
             .catch(e => { console.log(e); });
+            
 
     }
 
@@ -119,12 +88,19 @@ export default ({ uri }) => {
         console.log(result);
 
         if (!result.cancelled) {
-
+            
+            console.log("=============================RESULT PICK")
+            const user = firebase.auth().currentUser.uid;
+            uri = result.uri;
+            console.log(user)
+            console.log(uri)
             setImage(result.uri);
             setUpLoading(true);
             try {
                 console.log("-------------------Result RUI-----------------")
                 console.log(result.uri)
+
+                var extension= result.uri.substring(result.uri.lastIndexOf('.') + 1);
                 const blob = await new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.onload = function () {
@@ -137,14 +113,19 @@ export default ({ uri }) => {
                     xhr.open("GET", result.uri, true);
                     xhr.send(null);
                   });
-                const snapshot = await cloudStorage.ref(uri).put(blob, { contentType: "image/jpeg" });
+                const snapshot = await cloudStorage.ref(user+"."+extension).put(blob, { contentType: "image/jpeg" });
                 
-                setUpLoading(false);
+                setVoid(false);
+                const userRef = firebase.database().ref("Users/"+user);
+                userRef.update({"url_img_profile": user+"."+extension}).then(()=>{
+                    console.log("=========================ADD TO DATABASE")
+                })
+                setWasSeted(true);
                 Alert.alert(
                     'Image Sended Sucessfull',
                     'Your image has saved'
                 )
-
+                
             } catch (e) {
                 console.log(e);
             }
@@ -156,7 +137,12 @@ export default ({ uri }) => {
 
     return (
         <ImageContainer onPress={pickImage}>
-            {!wasSeted ?
+            {isVoid?
+                <ImageLoad>
+                    <AntDesign name="adduser" size={120} color="gray" />
+                </ImageLoad>
+            :
+            !wasSeted ?
                 <ImageLoad>
                     <ActivityIndicator size="large" color="#6B3D6C"
                         style={{ width: 120, height: 120 }}
@@ -165,6 +151,7 @@ export default ({ uri }) => {
                 :
                 <Image source={{ uri: image }}
                     style={{ width: 120, height: 120, borderRadius: 8 }} />
+
             }
 
         </ImageContainer>

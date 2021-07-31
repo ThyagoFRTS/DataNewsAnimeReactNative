@@ -34,6 +34,8 @@ export default ({ route }) => {
                     setUser(snapshot.val());
                 });
                 setLoading(false) 
+                console.log("======uri test void")
+                console.log(user.url_img_profile)
             // ...
           }
         }
@@ -48,7 +50,7 @@ export default ({ route }) => {
         .then(() => {
             Alert.alert(
             'Logout',
-            'You will sendded to Login page'
+            'Make Login to enter on app'
         )});
     }
     return (
@@ -56,8 +58,8 @@ export default ({ route }) => {
             {isLoading ? <Loading /> :
                 <Container>
                     <Card >
-
                         <ImageProfile uri={user.url_img_profile}/>
+                        
                         <ContainerTex>
                             <Title>User: {user.userName}</Title>
                             <TextInfo>Type: {user.type}</TextInfo>

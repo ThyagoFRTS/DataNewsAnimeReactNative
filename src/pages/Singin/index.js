@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'react-native'
+import { Alert, Image } from 'react-native'
 import firebase from '../../settings/firebase';
 import {
     ScrollView,
@@ -34,26 +34,45 @@ export default ({ navigation }) => {
                 alert("Passwords must be agree");
                 return;
             }
-            firebase.auth().createUserWithEmailAndPassword(email,pass)
-            const currentUser = firebase.auth().currentUser.uid
-            var today = new Date();
-            var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date+' '+time;
+            firebase.auth().createUserWithEmailAndPassword(email,pass).then((user) => {
+                console.log("-------------------user user");
+                console.log(user.user.uid)
+                
+                const currentUser = user.user.uid;
+                console.log("=======SINGIN FUCTION")
+                console.log(currentUser);
+                var today = new Date();
+                var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date + ' ' + time;
+                database
+                    .ref('/Users/' + currentUser)
+                    .set({
+                        date_create_account: dateTime,
+                        email: email,
+                        id: currentUser,
+                        pass: pass,
+                        type: 'User',
+                        url_img_profile: '',
+                        userName: userName,
+                    })
+                alert("Sucessfull");
 
-            database
-                .ref('/Users/'+currentUser)
-                .set({
-                    date_create_account: dateTime,
-                    email: email,
-                    id: currentUser,
-                    pass: pass,
-                    type: 'User',
-                    url_img_profile: '',
-                    userName: userName,
-                })
-            alert("Sucessfull");
-            navigation.navigate('Home')
+            }
+
+
+            ).catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    alert('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    alert('That email address is invalid!');
+                }
+                console.error(error);
+            });
+              
+
 
         } catch (error) {
             console.log(error.toString());

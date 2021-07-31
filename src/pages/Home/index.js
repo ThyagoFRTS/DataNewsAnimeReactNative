@@ -19,7 +19,7 @@ export default ({navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [isRender, setIsRender] = useState(false);
-    const [a, setA] = useState("");
+    
 
 
 
@@ -44,7 +44,7 @@ export default ({navigation }) => {
     }, [])
 
     const onPressItem = (item) =>{
-        setA(item.title)
+        
         navigation.navigate('CardInfo', {item:item})
     }
 
@@ -65,7 +65,7 @@ export default ({navigation }) => {
 
     return (
         <Container>
-            <SearchBar uId={a} />
+            <SearchBar uId={""} />
             {isLoading ? <Loading /> :
                 <FlatList
                     data={data}
