@@ -26,8 +26,8 @@ export const Title = styled.Text`
     
 `
 export const TextInfo = styled.Text`
-    padding-left: 8px;
-    margin-top: 4px;
+    padding-left: 10px;
+    margin-top: 8px;
     color: black;
     text-align: justify;
     
