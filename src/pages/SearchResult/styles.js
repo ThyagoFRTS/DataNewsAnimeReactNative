@@ -19,9 +19,20 @@ export const Container = styled.View`
 
 `
 
+export const RatingContainer = styled.View`
+     
+     justify-content: center;
+     align-items: center;
+     padding: 10px;
+     
+
+`
+
+
 export const Title = styled.Text`
     color: black;
-    padding-left: 8px;
+    margin-top: 10px;
+    padding: 8px;
     font-size: 20px;
     
 `

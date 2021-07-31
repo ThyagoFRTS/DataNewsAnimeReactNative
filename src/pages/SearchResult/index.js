@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Text, Image, FlatList, ActivityIndicator } from "react-native"
 import CardNS from '../../components/CardNS'
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import {
     Card,
     Title,
@@ -8,7 +9,8 @@ import {
     TextInfo,
     Container,
     ContainerDescription,
-    ImageLoad
+    ImageLoad,
+    RatingContainer
 } from './styles'
 
 const searchAnimeTitle = "https://api.jikan.moe/v3/search/anime?q=";
@@ -17,7 +19,16 @@ const searchAnimeTitle = "https://api.jikan.moe/v3/search/anime?q=";
 export default ({ route }) => {
     const [data, setData] = useState([])
     const [haveContent, setHaveContent] = useState(false);
+    const [defaltRating, setDefaultRating] = useState(0);
+    const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const { anime_name } = route.params;
+
+    const starImgFilled = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png'
+    const starImgCorner = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png'
+
+
+
+
     useEffect(() => {
         let isMounted = true;
 
@@ -44,18 +55,6 @@ export default ({ route }) => {
 
     }, [])
 
-    function listarTodasAsPropriedades(o) {
-        var objectoASerInspecionado;
-        var resultado = [];
-
-        for (objectoASerInspecionado = o; objectoASerInspecionado !== null; objectoASerInspecionado = Object.getPrototypeOf(objectoASerInspecionado)) {
-            resultado = resultado.concat(Object.getOwnPropertyNames(objectoASerInspecionado));
-        }
-
-        return resultado;
-    }
-    console.log("====================Data Visible")
-    //console.log(listarTodasAsPropriedades(data))
 
     return (
         <Container>
@@ -74,6 +73,18 @@ export default ({ route }) => {
                         </ContainerTex>
                     </Card>
                     <ContainerDescription>
+                        <RatingContainer>
+
+                            <Rating
+                                type='custom'
+                                showRating={false}
+                                readonly={true}
+                                ratingCount={10}
+                                imageSize={33}
+                                startingValue={data[0].score}
+                            />
+                        </RatingContainer>
+
 
                         <TextInfo>{"Synopsis: " + data[0].synopsis} </TextInfo>
                         <TextInfo>{"Airing: " + data[0].airing.toString()}</TextInfo>

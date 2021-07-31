@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons'; 
 import Home from '../../pages/Home';
 import Profile from '../../pages/Profile'
 import {HomeNavigation} from '../HomeNavigation'
@@ -37,7 +38,7 @@ export default ProfileHomeNavigation = ({route, userid}) =>{
         <Tab.Navigator
             tabBarOptions={{
                 showLabel:true,
-                activeTintColor: 'black',
+                activeTintColor: '#6B3D6C',
                 inactiveTintColor: 'gray',
 
             }}
@@ -45,7 +46,7 @@ export default ProfileHomeNavigation = ({route, userid}) =>{
                 tabBarIcon: ({ focused, color, size }) => {
     
                     if (route.name === 'Home') {
-                        return <AntDesign name="home" size={24} color={color} />
+                        return <Entypo name="home" size={24} color={color} />
                         
                     } else {
                         return <MaterialCommunityIcons name="account" size={24} color={color} />
