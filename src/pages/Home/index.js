@@ -13,11 +13,13 @@ import Loading from '../Loading'
 
 
 const nextSeason = "https://api.jikan.moe/v3/season/later"
-
+const searchAnimeTitleId = "https://api.jikan.moe/v3/anime/";
 
 export default ({navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [cardInfo, setCardInfo] = useState([]);
+
     const [isRender, setIsRender] = useState(false);
     
 
@@ -44,6 +46,15 @@ export default ({navigation }) => {
     }, [])
 
     const onPressItem = (item) =>{
+        async function fetchData() {
+            await fetch(searchAnimeTitleId + item.mal_id + "/news")
+                .then((response) => response.json())
+                .then((json) => {setCardInfo(json.articles) })
+                .catch((error) => alert(error))
+
+        }
+        console.log("==========ON PREESS");
+        console.log(cardInfo)
         
         navigation.navigate('CardInfo', {item:item})
     }
@@ -65,7 +76,7 @@ export default ({navigation }) => {
 
     return (
         <Container>
-            <SearchBar uId={""} />
+            <SearchBar nav={navigation}/>
             {isLoading ? <Loading /> :
                 <FlatList
                     data={data}

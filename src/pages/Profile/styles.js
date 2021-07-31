@@ -46,13 +46,14 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     color: black;
-    padding-left: 8px;
+    margin-top: 10px;
+    padding: 8px;
     font-size: 20px;
     
 `
 export const TextInfo = styled.Text`
-    padding-left: 8px;
-    margin-top: 4px;
+    padding: 8px;
+    margin-bottom: 4px;
     color: black;
     text-align: justify;
     

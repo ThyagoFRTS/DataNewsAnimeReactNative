@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Text, Image, FlatList } from "react-native"
+import { Text, Image, FlatList, ActivityIndicator } from "react-native"
 import CardNS from '../../components/CardNS'
 import {
     Card,
@@ -7,7 +7,8 @@ import {
     ContainerTex,
     TextInfo,
     Container,
-    ContainerDescription
+    ContainerDescription,
+    ImageLoad
 } from './styles'
 const search = "https://api.jikan.moe/v3/search/anime?q="
 const searchAnimeTitleId = "https://api.jikan.moe/v3/anime/";
@@ -15,49 +16,52 @@ const searchAnimeTitle = "https://api.jikan.moe/v3/search/anime?q=";
 
 export default ({ route }) => {
     const [data, setData] = useState([])
+    const [haveContent, setHaveContent] = useState(false);
     const { item } = route.params;
-
     useEffect(() => {
         let isMounted = true;
-        console.log("===========CARD INFORMATION============");
-        console.log(searchAnimeTitleId + item.mal_id + "/news");
-        fetch(searchAnimeTitleId + item.mal_id + "/news")
-            .then((response) => response.json())
-            .then((json) => {
-                if (isMounted) {
-                    setData(json.articles)
-                    console.log("====================JASON PURO")
-                    console.log(json.articles);
-                    console.log("====================filtrado")
-                    
-                    console.log(listarTodasAsPropriedades(json.articles[0]));
-                }
-            })
-            .catch((error) => alert(error));
+
+        async function fetchData() {
+            await fetch(searchAnimeTitleId + item.mal_id + "/news")
+                .then((response) => response.json())
+                .then((json) => { if (isMounted) setData(json.articles) })
+                .catch((error) => alert(error));
+
+            setHaveContent(true);
+        }
+        console.log("================USE EFECT===============")
+        console.log("String url: " + searchAnimeTitleId + item.mal_id + "/news")
+        fetchData();
+        // fetch(searchAnimeTitleId + item.mal_id + "/news")
+        //     .then((response) => response.json())
+        //     .then((json) => { if (isMounted) setData(json.articles) })
+        //     .catch((error) => alert(error))
+
 
         // note mutable flag
         return () => { isMounted = false };
 
     }, [])
-    function listarTodasAsPropriedades(o){
+
+    function listarTodasAsPropriedades(o) {
         var objectoASerInspecionado;
         var resultado = [];
-    
-        for(objectoASerInspecionado = o; objectoASerInspecionado !== null; objectoASerInspecionado = Object.getPrototypeOf(objectoASerInspecionado)){
+
+        for (objectoASerInspecionado = o; objectoASerInspecionado !== null; objectoASerInspecionado = Object.getPrototypeOf(objectoASerInspecionado)) {
             resultado = resultado.concat(Object.getOwnPropertyNames(objectoASerInspecionado));
         }
-    
+
         return resultado;
     }
-    console.log("====================ATTT")
-    console.log(listarTodasAsPropriedades(data))
-
+    console.log("====================Data Visible")
+    //console.log(listarTodasAsPropriedades(data))
+    console.log(data)
 
     return (
         <Container>
             <Card>
                 <Image source={{ uri: item.image_url }}
-                    style={{ width: 140, height: 140, borderRadius: 8 }} />
+                    style={{ width: 130, height: 130, borderRadius: 8 }} />
                 <ContainerTex>
                     <Title>{item.title}</Title>
                     <TextInfo>{item.synopsis.length > 100 ? item.synopsis.substring(0, 100 - 3) + "..." : item.synopsis}</TextInfo>
@@ -78,13 +82,23 @@ export default ({ route }) => {
             </ContainerDescription>
 
             <Card>
-                <Image source={{ uri: data[0].image_url }}
-                    style={{ width: 100, height: 130, borderRadius: 8 }} />
-                <ContainerTex>
-                    <Title>{data[0].title}</Title>
-                    <TextInfo>{data[0].intro}</TextInfo>
-                    <TextInfo>{data[0].author_name}</TextInfo>
-                </ContainerTex>
+                {haveContent ?
+                    <>
+                        <Image source={{ uri: data[0].image_url }}
+                            style={{ width: 100, height: 130, borderRadius: 8 }} />
+                        <ContainerTex>
+                            <Title>{data[0].title}</Title>
+                            <TextInfo>{data[0].intro}</TextInfo>
+                            <TextInfo>{data[0].author_name}</TextInfo>
+                        </ContainerTex>
+                    </>
+                    :
+                    <ImageLoad>
+                        <ActivityIndicator size="large" color="#6B3D6C"
+                            style={{ width: 100, height: 130 }}
+                        />
+                    </ImageLoad>
+                }
 
 
             </Card>

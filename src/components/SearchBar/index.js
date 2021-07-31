@@ -9,17 +9,25 @@ import {
 } from './styles'
 
 
-export default (props)=>{
+export default ({nav})=>{
     const [item, setItem] = useState("")
+
+    const sendItemName = () => {
+
+        console.log(nav.navigate("SearchResult", { anime_name: item }));
+
+    }
+    
     return(
         <Container>
-            <SearchSubmit>
+            <SearchSubmit onPress={sendItemName}>
                 <AntDesign name="search1" size={24} color="black" />
 
             </SearchSubmit>
             <Search
                 onChangeText={item => setItem(item)}
-                placeholder= {props.uId}
+                placeholder= "Search Anime Here"
+                
             />
             
         </Container>

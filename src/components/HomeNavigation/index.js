@@ -4,7 +4,7 @@ import Home from '../../pages/Home';
 import Login from '../../pages/Login'
 import CardInfo from '../../pages/CardInfo'
 import Profile from '../../pages/Profile'
-
+import SearchResult from '../../pages/SearchResult';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -55,6 +55,7 @@ export const HomeNavigation = () =>{
       
       <HomeStack.Screen name="BackToHome" component={Home} />
       <HomeStack.Screen name="CardInfo" component={CardInfo} />
+      <HomeStack.Screen name="SearchResult" component={SearchResult} />
 
     </HomeStack.Navigator>
   );
